@@ -132,9 +132,23 @@ export const toggleFeaturedProduct = async (req, res) => {
             product.isFeatured = !product.isFeatured;
             const updatedProduct = await product.save();
             // update cache
-
+            await updatedFeatureProductsCache();
+            res.json(updatedProduct);
+        } else {
+            res.status(404).json({ message: "Product not found" });
         }
     } catch (error) {
-        
+        console.log("Error in toggleFeatureProduct controller", error.message);
+    }
+}
+
+async function updatedFeatureProductsCache() {
+    try {
+        // lean() method is used to return plain javascript objects instead of full Mongoose documents
+        // this can significantly reduce performance
+        const featuredProducts = await Product.find({ isFeatured: true}).lean();
+        await redis.set("featured_products", JSON.stringify(featuredProducts));
+    } catch (error) {
+        console.log("error in update cache function")
     }
 }
