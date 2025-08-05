@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { useUserStore } from "./stores/useUserStore";
 import { useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
 	const { user, checkAuth, checkingAuth } = useUserStore();
