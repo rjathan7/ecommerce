@@ -17,7 +17,8 @@ export const useProductStore = create((set) => ({
                 loading: false,
             }));
         } catch (error) {
-            
+            toast.error(error.response.data.error);
+			set({ loading: false });
         }
     }
 

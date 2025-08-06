@@ -40,17 +40,17 @@ export const getFeaturedProducts = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-        const {name, descrption, price, image, category} = req.body;
+        const {name, description, price, image, category} = req.body;
 
         let cloudinaryResponse = null;
 
         if (image) {
-            await cloudinary.uploader.upload(image, {folder:"products"})
+            cloudinaryResponse = await cloudinary.uploader.upload(image, {folder:"products"})
         }
 
         const product = await Product.create({
             name,
-            decription,
+            description,
             price,
             image: cloudinaryResponse?.secure_url ? cloudinaryResponse.secure_url: "",
             category
