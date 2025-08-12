@@ -37,8 +37,8 @@ const CartPage = () => {
 							animate={{ opacity: 1, x: 0 }}
 							transition={{ duration: 0.5, delay: 0.4 }}
 						>
-							{/* <OrderSummary />
-							<GiftCouponCard /> */}
+							<OrderSummary />
+							{/* <GiftCouponCard /> */}
 						</motion.div>
 					)}
 				</div>
