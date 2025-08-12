@@ -8,7 +8,7 @@ export const useCartStore = create((set, get) => ({
     total: 0,
     subtotal: 0,
 
-    getCartItems: async() => {
+    getCartItems: async () => {
         try {
             const res = await axios.get("/cart");
             set({ cart: res.data });
@@ -19,7 +19,7 @@ export const useCartStore = create((set, get) => ({
         }
     },
 
-    addToCart: async(product) => {
+    addToCart: async (product) => {
         try {
             await axios.post("/cart", {productId:product._id});
             toast.success("Product added to cart");
@@ -35,6 +35,25 @@ export const useCartStore = create((set, get) => ({
         } catch (error) {
             toast.error(error.response.data.message || "An error occurred");
         }
+    },
+
+    removeFromCart: async (productId) => {
+        await axios.delete(`/cart`, { data: { productId } });
+        set((prevState) => ({ cart: prevState.cart.filter(item => item._id !== productId)}));
+        get().calculateTotals();
+    },
+
+    updateQuantity: async(productId, quantity) => {
+        if (quantity === 0) {
+            get().removeFromCart(productId);
+            return
+        }
+
+        await axios.put(`/cart/${productId}`, { quantity });
+        set((prevState) => ({
+            cart: prevState.cart.map((item) => (item._id === productId ? { ...item, quantity } : item)),
+        }));
+        get().calculateTotals();
     },
 
     calculateTotals: () => {
