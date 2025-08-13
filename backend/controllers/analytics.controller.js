@@ -20,7 +20,7 @@ export const getAnalyticsData = async () => {
 
     return {
         users: totalUsers,
-        prducts: totalProducts,
+        products: totalProducts,
         totalSales,
         totalRevenue
     }
