@@ -15,15 +15,16 @@ export const createCheckoutSession = async (req, res) => {
             totalAmount += amount * product.quantity;
 
             return {
-                price_data:{
+                price_data: {
                     currency:"usd",
                     product_data: {
                         name: product.name,
-                        image: [product.name],
+                        images: [product.image],
                     },
-                    unit_amount:amount
-                }
-            }
+                    unit_amount: amount,
+                },
+                quantity: product.quantity || 1,
+            };
         });
 
         let coupon = null;
